@@ -131,7 +131,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(null=False, default=False)
 
     def __str__(self) -> str:
-        return self.choice_text
+        return self.choice_text + str(self.is_correct)
 
 
 # <HINT> The submission model
@@ -139,6 +139,8 @@ class Choice(models.Model):
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
 class Submission(models.Model):
-   enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-   choices = models.ManyToManyField(Choice)
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
+    def __str__(self) -> str:
+        return str(self.enrollment) + str(self.choices)
