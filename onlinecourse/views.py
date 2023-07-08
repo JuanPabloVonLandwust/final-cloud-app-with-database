@@ -143,14 +143,17 @@ def show_exam_result(request, course_id, submission_id):
         course = Course.objects.get(pk=course_id)
         submission = Submission.objects.get(pk=submission_id)
         choices = submission.choices.all()
-        selected_ids = []
-        for choice in choices:
-            selected_ids.append(choice.id)
         questions = course.question_set.all()
         score = 0
         total = 0
+        selected_ids = []
         for question in questions:
-            if question.is_get_score(selected_ids):
+            choice_ids = []
+            for choice in choices:
+                if choice in question.choice_set.all():
+                    choice_ids.append(choice.id)
+                selected_ids.append(choice.id)
+            if question.is_get_score(choice_ids):
                 score += question.grade
             total += question.grade
         grade = int(100 * score / total)

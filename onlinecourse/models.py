@@ -113,7 +113,7 @@ class Question(models.Model):
     def is_get_score(self, selected_ids):
        all_answers = self.choice_set.filter(is_correct=True).count()
        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
-       return all_answers == selected_correct
+       return all_answers == selected_correct and all_answers == len(selected_ids)
        
     def __str__(self) -> str:
         return self.question_text
